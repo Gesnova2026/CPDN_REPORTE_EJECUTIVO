@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Reporte Ejecutivo — Proyecto GD CPDN</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #f7f7f8;
+    color: #1f2328;
+    padding: 24px;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+  header.page-header { margin-bottom: 24px; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  header.page-header h1 { font-size: 22px; margin: 0 0 4px; font-weight: 650; }
+  header.page-header p { margin: 0; color: #6b7280; font-size: 13px; }
+  header.page-header .src { display: inline-block; margin-top: 8px; background: #eef4ff; color: #0073ea; border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 600; }
+  .reload-btn { border: 1px solid #d1d5db; background: #fff; color: #1f2328; border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+  .reload-btn:hover { background: #f3f4f6; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px; }
+  .kpi-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 16px; }
+  .kpi-card .label { font-size: 12px; color: #6b7280; margin-bottom: 6px; }
+  .kpi-card .value { font-size: 26px; font-weight: 650; }
+  .kpi-card .sub { font-size: 12px; color: #9ca3af; margin-top: 4px; }
+  .kpi-card.warn .value { color: #b45309; }
+  section { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 18px 20px; margin-bottom: 20px; }
+  section h2 { font-size: 15px; margin: 0; font-weight: 650; }
+  .section-header { display: flex; align-items: center; cursor: pointer; user-select: none; }
+  .section-header h2 { display: flex; align-items: center; gap: 8px; }
+  .sec-caret { color: #9ca3af; font-size: 11px; display: inline-block; transition: transform 0.15s; }
+  .sec-caret.open { transform: rotate(90deg); }
+  .section-body { margin-top: 14px; }
+  .section-body.collapsed { display: none; }
+  .two-col { display: grid; grid-template-columns: 1.1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .two-col > section { margin-bottom: 0; }
+  .chart-box { position: relative; height: 240px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #eef0f2; }
+  th { color: #6b7280; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.02em; }
+  tr:last-child td { border-bottom: none; }
+  .bar-bg { background: #eef0f2; border-radius: 6px; height: 8px; width: 100%; overflow: hidden; }
+  .bar-fill { background: #16a34a; height: 100%; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; color: #fff; white-space: nowrap; }
+  .board-chip { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; color: #0073ea; background: #eef4ff; white-space: nowrap; margin: 1px 3px 1px 0; }
+  tr.workload-row { cursor: pointer; }
+  tr.workload-row:hover { background: #fafbfc; }
+  .caret { display: inline-block; color: #9ca3af; font-size: 10px; margin-right: 6px; transition: transform 0.15s; }
+  .caret.open { transform: rotate(90deg); }
+  tr.workload-detail td { background: #fafbfc; padding: 10px 10px 14px 30px; border-bottom: 1px solid #eef0f2; }
+  .detail-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .detail-table th, .detail-table td { text-align: left; padding: 5px 8px; border-bottom: 1px solid #eef0f2; }
+  .detail-table th { color: #6b7280; font-weight: 600; font-size: 11px; text-transform: uppercase; }
+  a.item-link { color: #0073ea; text-decoration: none; }
+  a.item-link:hover { text-decoration: underline; }
+  .muted { color: #6b7280; }
+  .narrative { font-size: 14px; line-height: 1.6; white-space: pre-wrap; }
+  .state-msg { padding: 40px; text-align: center; color: #6b7280; font-size: 14px; }
+  .footer-note { font-size: 11px; color: #9ca3af; margin-top: 6px; }
+  .error-banner { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-bottom: 16px; }
+  @media (max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } .two-col { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="page-header">
+    <div>
+      <h1>Reporte Ejecutivo — Proyecto GD CPDN</h1>
+      <p id="generated-at">Cargando...</p>
+      <p id="data-updated-at" style="margin-top:2px;"></p>
+      <div class="src">Fuente: boards Registro Requerimientos, Registro Req. Adicionales y Registro Incidentes (Monday.com) · se actualiza sola cada 5 min</div>
+    </div>
+    <button class="reload-btn" onclick="location.reload()">↻ Recargar</button>
+  </header>
+
+  <div id="error-slot"></div>
+  <div id="loading" class="state-msg">Cargando datos de Monday.com...</div>
+
+  <div id="content" style="display:none;">
+    <div class="kpi-grid" id="kpi-grid"></div>
+
+    <section>
+      <div class="section-header" onclick="toggleSection('trend')">
+        <h2><span class="sec-caret open" id="sc-trend">▶</span> Tendencia mensual — creados, cerrados y abiertos (Registro Req. Lev. + Registro Req. MAU + Registro Incidentes)</h2>
+      </div>
+      <div class="section-body" id="sb-trend">
+        <div class="chart-box" id="trend-chart-box"><canvas id="trend-chart"></canvas></div>
+        <p class="footer-note">Cada columna es un mes de creación: el segmento verde son los Cerrados (Estado ITOP "Cerrado" o "Solucionado") y el naranja los Abiertos. El número sobre la columna es el total creado ese mes.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header" onclick="toggleSection('trendReqAdic')">
+        <h2><span class="sec-caret open" id="sc-trendReqAdic">▶</span> Tendencia mensual — creados, cerrados y abiertos (Registro Req. Lev. + Registro Req. MAU)</h2>
+      </div>
+      <div class="section-body" id="sb-trendReqAdic">
+        <div class="chart-box" id="trend-reqadic-chart-box"><canvas id="trend-reqadic-chart"></canvas></div>
+        <p class="footer-note">Incluye solo los boards Registro Requerimientos y Registro Req. Adicionales.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header" onclick="toggleSection('trendIncidentes')">
+        <h2><span class="sec-caret open" id="sc-trendIncidentes">▶</span> Tendencia mensual — creados, cerrados y abiertos (Registro Incidentes)</h2>
+      </div>
+      <div class="section-body" id="sb-trendIncidentes">
+        <div class="chart-box" id="trend-incidentes-chart-box"><canvas id="trend-incidentes-chart"></canvas></div>
+        <p class="footer-note">Incluye solo el board Registro Incidentes.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header" onclick="toggleSection('statusDist')">
+        <h2><span class="sec-caret open" id="sc-statusDist">▶</span> Distribución por Estado ITOP</h2>
+      </div>
+      <div class="section-body" id="sb-statusDist">
+        <div class="chart-box"><canvas id="status-chart"></canvas></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header" onclick="toggleSection('blocked')">
+        <h2><span class="sec-caret open" id="sc-blocked">▶</span> Elementos pendientes (Estado ITOP = Pendiente)</h2>
+      </div>
+      <div class="section-body" id="sb-blocked">
+        <table id="blocked-table">
+          <thead><tr><th>Elemento</th><th>Tablero</th><th>Estado ITOP</th><th>ID ITOP (REQ)</th><th>ID ITOP (INC)</th><th>Creado</th><th>Asignado</th><th>Días desde asignación</th><th>Última actualización</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <p class="footer-note" id="blocked-empty-note" style="display:none;">No hay elementos con Estado ITOP = Pendiente en este momento.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header" onclick="toggleSection('assignedItems')">
+        <h2><span class="sec-caret open" id="sc-assignedItems">▶</span> Elementos asignados (Estado ITOP = Asignado)</h2>
+      </div>
+      <div class="section-body" id="sb-assignedItems">
+        <table id="assigned-table">
+          <thead><tr><th>Elemento</th><th>Tablero</th><th>Estado ITOP</th><th>ID ITOP (REQ)</th><th>ID ITOP (INC)</th><th>Resp. QA</th><th>Creado</th><th>Asignado</th><th>Días desde asignación</th><th>Última actualización</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <p class="footer-note" id="assigned-empty-note" style="display:none;">No hay elementos con Estado ITOP = Asignado en este momento.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header" onclick="toggleSection('boardProgress')">
+        <h2><span class="sec-caret open" id="sc-boardProgress">▶</span> Avance por tablero</h2>
+      </div>
+      <div class="section-body" id="sb-boardProgress">
+        <table id="board-table">
+          <thead><tr><th>Tablero</th><th>Total</th><th>Cerrados</th><th>Pendientes</th><th>Nuevos (mes)</th><th>% Avance</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header" onclick="toggleSection('workload')">
+        <h2><span class="sec-caret open" id="sc-workload">▶</span> Carga por responsable (Resp. QA)</h2>
+      </div>
+      <div class="section-body" id="sb-workload">
+        <div class="chart-box" id="workload-chart-box"><canvas id="workload-chart"></canvas></div>
+        <table id="workload-table" style="margin-top:16px;">
+          <thead><tr><th>Responsable QA</th><th>Total asignado</th><th>Tableros</th><th>Sin Asignar</th><th>Asignado</th><th>Pendiente</th><th>Solucionado</th><th>Cerrado</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <p class="footer-note">Un elemento puede tener más de un responsable de QA; en ese caso se cuenta una vez por cada responsable.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-header" onclick="toggleSection('narrative')">
+        <h2><span class="sec-caret open" id="sc-narrative">▶</span> Resumen ejecutivo</h2>
+      </div>
+      <div class="section-body" id="sb-narrative">
+        <div class="narrative" id="narrative">Generando resumen...</div>
+        <p class="footer-note">Resumen generado automáticamente a partir de los KPIs (sin IA) en la versión publicada.</p>
+      </div>
+    </section>
+
+    <p class="footer-note">Fuente: boards "Registro Requerimientos", "Registro Req. Adicionales" y "Registro Incidentes" del workspace "Proyecto GD - CPDN" en Monday.com, columna "Estado ITOP". Cerrado = Estado ITOP "Cerrado" o "Solucionado". Pendiente = Estado ITOP "Pendiente". Los datos se actualizan periódicamente mediante un GitHub Action programado (ver data-updated-at arriba para la última actualización).</p>
+  </div>
+</div>
+
+<script>
+const BOARDS = [
+  { id: 18254196175, name: "Registro Requerimientos", icon: "🏷️", statusKey: "color_mm60709f", personKey: "multiple_person_mm0pjp0", assignedKey: "date_mm60p5g3", reqIdKey: "text_mkx0xt5q" },
+  { id: 18425634570, name: "Registro Req. Adicionales", icon: "🗳️", statusKey: "color_mm638s7q", personKey: "multiple_person_mm0pjp0", assignedKey: "date_mm63bz4h", reqIdKey: "text_mkx0xt5q" },
+  { id: 18425631515, name: "Registro Incidentes", icon: "🔖", statusKey: "color_mm63rtdt", personKey: "multiple_person_mm0pjp0", assignedKey: "date_mm632exz", reqIdKey: "text_mkx0xt5q", incIdKey: "text_mm60j51z" }
+];
+
+const WORKLOAD_BUCKETS = ["Sin Asignar", "Asignado", "Pendiente", "Solucionado", "Cerrado"];
+const WORKLOAD_COLORS = { "Sin Asignar": "#784bd1", "Asignado": "#fdab3d", "Pendiente": "#ff007f", "Solucionado": "#cab641", "Cerrado": "#00c875", "Otros": "#9d99b9" };
+const BOARD_ICON = {};
+BOARDS.forEach(b => { BOARD_ICON[b.name] = b.icon; });
+
+const STATUS_COLORS = {
+  "Asignado": "#fdab3d",
+  "Cerrado": "#00c875",
+  "Pendiente": "#ff007f",
+  "Sin Iniciar": "#9d99b9",
+  "Sin Asignar": "#784bd1",
+  "Solucionado": "#cab641",
+  "No Aplica": "#7f5347",
+  "": "#c4c4c4"
+};
+function colorFor(label) { return STATUS_COLORS[label] || "#9d99b9"; }
+
+const DONE_LABELS = ["Cerrado", "Solucionado"];
+const BLOCKED_LABELS = ["Pendiente"];
+
+function classify(label) {
+  if (!label) return "sin_estado";
+  if (DONE_LABELS.includes(label)) return "done";
+  if (BLOCKED_LABELS.includes(label)) return "blocked";
+  return "open";
+}
+
+function monthKey(dateStr) {
+  const d = new Date(dateStr);
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
+}
+function monthLabel(key) {
+  const [y, m] = key.split("-").map(Number);
+  return new Date(y, m - 1, 1).toLocaleDateString("es-CL", { month: "short", year: "numeric" });
+}
+function buildMonthlyClosedSeries(items) {
+  const createdByMonthSub = {};
+  const closedByCreationMonthSub = {};
+  items.forEach(it => {
+    if (!it.created_at) return;
+    const k = monthKey(it.created_at);
+    createdByMonthSub[k] = (createdByMonthSub[k] || 0) + 1;
+    if (it.cls === "done") closedByCreationMonthSub[k] = (closedByCreationMonthSub[k] || 0) + 1;
+  });
+  const months = Object.keys(createdByMonthSub).sort();
+  return {
+    labels: months.map(monthLabel),
+    closed: months.map(k => closedByCreationMonthSub[k] || 0),
+    open: months.map(k => (createdByMonthSub[k] || 0) - (closedByCreationMonthSub[k] || 0))
+  };
+}
+function fmtDate(dateStr) {
+  if (!dateStr) return "-";
+  try { return new Date(dateStr).toLocaleDateString("es-CL", { day: "2-digit", month: "short", year: "numeric" }); }
+  catch (e) { return dateStr; }
+}
+function startOfMonth() {
+  const d = new Date();
+  return new Date(d.getFullYear(), d.getMonth(), 1);
+}
+function daysSince(dateStr) {
+  if (!dateStr) return null;
+  const then = new Date(dateStr);
+  if (isNaN(then)) return null;
+  const diffMs = Date.now() - then.getTime();
+  return Math.max(0, Math.floor(diffMs / 86400000));
+}
+
+function parseAssignees(val) {
+  if (!val) return [];
+  return String(val).split(",").map(s => s.trim()).filter(Boolean);
+}
+
+function toggleWorkload(idx) {
+  const row = document.getElementById("wd-" + idx);
+  const caret = document.getElementById("wc-" + idx);
+  if (!row) return;
+  const isOpen = row.style.display !== "none";
+  row.style.display = isOpen ? "none" : "table-row";
+  if (caret) caret.classList.toggle("open", !isOpen);
+}
+window.toggleWorkload = toggleWorkload;
+
+const SECTION_IDS = ["trend", "trendReqAdic", "trendIncidentes", "statusDist", "boardProgress", "blocked", "assignedItems", "workload", "narrative"];
+const chartsRegistry = {};
+
+function toggleSection(id) {
+  const body = document.getElementById("sb-" + id);
+  const caret = document.getElementById("sc-" + id);
+  if (!body) return;
+  const willCollapse = !body.classList.contains("collapsed");
+  body.classList.toggle("collapsed", willCollapse);
+  if (caret) caret.classList.toggle("open", !willCollapse);
+  try { localStorage.setItem("section-collapsed-" + id, willCollapse ? "1" : "0"); } catch (e) {}
+  if (!willCollapse && chartsRegistry[id]) {
+    requestAnimationFrame(() => chartsRegistry[id].resize());
+  }
+}
+window.toggleSection = toggleSection;
+
+function restoreSectionStates() {
+  SECTION_IDS.forEach(id => {
+    let stored = null;
+    try { stored = localStorage.getItem("section-collapsed-" + id); } catch (e) {}
+    if (stored === "1") {
+      const body = document.getElementById("sb-" + id);
+      const caret = document.getElementById("sc-" + id);
+      if (body) body.classList.add("collapsed");
+      if (caret) caret.classList.remove("open");
+    }
+  });
+}
+
+let MONDAY_DATA = null;
+async function loadMondayData() {
+  const res = await fetch("data/monday-data.json", { cache: "no-store" });
+  if (!res.ok) throw new Error("No se pudo leer data/monday-data.json (HTTP " + res.status + ")");
+  MONDAY_DATA = await res.json();
+}
+
+async function fetchBoard(b) {
+  const boardData = MONDAY_DATA && MONDAY_DATA.boards ? MONDAY_DATA.boards[String(b.id)] : null;
+  if (!boardData) throw new Error("No hay datos guardados para el tablero " + b.name);
+  const items = boardData.items || [];
+  return items.map(it => {
+    const cv = it.column_values || {};
+    const label = cv[b.statusKey] || null;
+    const personVal = cv[b.personKey] || null;
+    const assignedVal = cv[b.assignedKey] || null;
+    const reqIdVal = b.reqIdKey ? (cv[b.reqIdKey] || null) : null;
+    const incIdVal = b.incIdKey ? (cv[b.incIdKey] || null) : null;
+    return {
+      id: it.id, name: it.name, url: it.url,
+      created_at: it.created_at, updated_at: it.updated_at,
+      assigned_at: assignedVal || null,
+      id_req: reqIdVal || null,
+      id_inc: incIdVal || null,
+      status_label: label || "Sin estado",
+      cls: classify(label),
+      assignees: parseAssignees(personVal)
+    };
+  });
+}
+
+function buildNarrative(s) {
+  const lines = [];
+  lines.push(`De los ${s.total_elementos} elementos registrados en los boards de gestión de demanda, ${s.cerrados} (${s.porcentaje_cerrado}%) ya están cerrados.`);
+  if (s.pendientes > 0) {
+    const topPend = [...s.desglose_por_tablero].filter(b => b.pendientes > 0).sort((a, b) => b.pendientes - a.pendientes);
+    const pendText = topPend.length ? topPend.map(b => `${b.tablero} (${b.pendientes})`).join(", ") : "";
+    lines.push(`Quedan ${s.pendientes} elementos pendientes (${s.porcentaje_pendiente}%)${pendText ? ", concentrados en " + pendText : ""}.`);
+  } else {
+    lines.push("No hay elementos pendientes en este momento.");
+  }
+  lines.push(`Este mes se crearon ${s.nuevos_este_mes} elementos nuevos.`);
+  if (s.tendencia_mensual.length >= 2) {
+    const first = s.tendencia_mensual[0];
+    const last = s.tendencia_mensual[s.tendencia_mensual.length - 1];
+    const dir = last.creados > first.creados ? "al alza" : (last.creados < first.creados ? "a la baja" : "estable");
+    lines.push(`La tendencia de creación mensual va ${dir}: de ${first.creados} en ${first.mes} a ${last.creados} en ${last.mes}.`);
+  }
+  const qa = s.carga_por_responsable_qa.filter(r => r.responsable !== "Sin asignar");
+  if (qa.length) {
+    const topLoad = [...qa].sort((a, b) => b.total - a.total)[0];
+    const topPendQA = [...qa].sort((a, b) => b.pendiente - a.pendiente)[0];
+    let qaLine = `${topLoad.responsable} concentra la mayor carga con ${topLoad.total} elementos asignados.`;
+    if (topPendQA.pendiente > 0) {
+      qaLine += topPendQA.responsable === topLoad.responsable
+        ? ` También es quien más pendientes tiene (${topPendQA.pendiente}).`
+        : ` ${topPendQA.responsable} tiene el mayor número de pendientes (${topPendQA.pendiente}).`;
+    }
+    lines.push(qaLine);
+  }
+  return lines.join(" ");
+}
+
+async function main() {
+  document.getElementById("generated-at").textContent =
+    "Página cargada " + new Date().toLocaleString("es-CL", { dateStyle: "long", timeStyle: "short" });
+
+  try {
+    await loadMondayData();
+  } catch (e) {
+    document.getElementById("loading").textContent =
+      "No se pudieron cargar los datos (" + e.message + "). Verifica que data/monday-data.json exista en el repo y que el GitHub Action se haya ejecutado al menos una vez.";
+    return;
+  }
+
+  if (MONDAY_DATA.generated_at) {
+    document.getElementById("data-updated-at").textContent =
+      "Datos de Monday actualizados: " + new Date(MONDAY_DATA.generated_at).toLocaleString("es-CL", { dateStyle: "long", timeStyle: "short" });
+  }
+
+  const settled = await Promise.allSettled(BOARDS.map(b => fetchBoard(b).then(items => ({ board: b, items }))));
+  const boardResults = [];
+  const errors = [];
+  settled.forEach((s, i) => {
+    if (s.status === "fulfilled") boardResults.push(s.value);
+    else errors.push(BOARDS[i].name);
+  });
+
+  if (errors.length) {
+    document.getElementById("error-slot").innerHTML =
+      '<div class="error-banner">No se pudieron cargar estos tableros: ' + errors.join(", ") + ". El resto del reporte se calculó con los disponibles.</div>";
+  }
+  if (!boardResults.length) {
+    document.getElementById("loading").textContent = "No se pudo cargar ningún tablero. Reintenta con el botón de recarga.";
+    return;
+  }
+
+  document.getElementById("loading").style.display = "none";
+  document.getElementById("content").style.display = "block";
+
+  const monthStart = startOfMonth();
+  let total = 0, done = 0, blocked = 0, newThisMonth = 0;
+  const allItems = [];
+  const boardRows = [];
+  const statusCounts = {};
+
+  boardResults.forEach(({ board, items }) => {
+    let bTotal = items.length, bDone = 0, bBlocked = 0, bNew = 0;
+    items.forEach(it => {
+      total++;
+      if (it.cls === "done") { done++; bDone++; }
+      else if (it.cls === "blocked") { blocked++; bBlocked++; }
+      if (new Date(it.created_at) >= monthStart) { newThisMonth++; bNew++; }
+      statusCounts[it.status_label] = (statusCounts[it.status_label] || 0) + 1;
+      allItems.push({ ...it, board: board.name });
+    });
+    boardRows.push({ name: board.name, icon: board.icon, total: bTotal, done: bDone, blocked: bBlocked, nuevo: bNew });
+  });
+
+  const doneRate = total ? Math.round((done / total) * 100) : 0;
+  const blockedRate = total ? Math.round((blocked / total) * 100) : 0;
+
+  document.getElementById("kpi-grid").innerHTML = `
+    <div class="kpi-card"><div class="label">Total de elementos (3 tableros)</div><div class="value">${total}</div><div class="sub">${boardResults.length} tableros</div></div>
+    <div class="kpi-card"><div class="label">Cerrados</div><div class="value">${done}</div><div class="sub">${doneRate}% del total</div></div>
+    <div class="kpi-card warn"><div class="label">Pendientes</div><div class="value">${blocked}</div><div class="sub">${blockedRate}% del total</div></div>
+    <div class="kpi-card"><div class="label">Nuevos este mes</div><div class="value">${newThisMonth}</div><div class="sub">desde el 01 de ${new Date().toLocaleDateString("es-CL",{month:"long"})}</div></div>
+  `;
+
+  const tbody = document.querySelector("#board-table tbody");
+  tbody.innerHTML = boardRows.map(r => {
+    const pct = r.total ? Math.round((r.done / r.total) * 100) : 0;
+    return `<tr>
+      <td>${r.icon} ${r.name}</td>
+      <td>${r.total}</td>
+      <td>${r.done}</td>
+      <td>${r.blocked > 0 ? '<span class="badge" style="background:' + colorFor("Pendiente") + '">' + r.blocked + '</span>' : '0'}</td>
+      <td>${r.nuevo}</td>
+      <td style="min-width:140px;">
+        <div class="bar-bg"><div class="bar-fill" style="width:${pct}%"></div></div>
+        <span class="muted" style="font-size:11px;">${pct}%</span>
+      </td>
+    </tr>`;
+  }).join("");
+
+  // Carga por responsable (Resp. QA)
+  const workloadMap = {};
+  allItems.forEach(it => {
+    const names = it.assignees.length ? it.assignees : ["Sin asignar"];
+    names.forEach(name => {
+      if (!workloadMap[name]) {
+        workloadMap[name] = { name, total: 0, "Sin Asignar": 0, Asignado: 0, Pendiente: 0, Solucionado: 0, Cerrado: 0, Otros: 0, boards: {}, items: [] };
+      }
+      const w = workloadMap[name];
+      w.total++;
+      if (WORKLOAD_BUCKETS.includes(it.status_label)) w[it.status_label]++;
+      else w.Otros++;
+      w.boards[it.board] = (w.boards[it.board] || 0) + 1;
+      w.items.push({ name: it.name, url: it.url, board: it.board, status_label: it.status_label, id_req: it.id_req, id_inc: it.id_inc });
+    });
+  });
+  const workloadRows = Object.values(workloadMap).sort((a, b) => b.total - a.total);
+  workloadRows.forEach(w => w.items.sort((a, b) => a.board.localeCompare(b.board) || a.name.localeCompare(b.name)));
+
+  const workloadBody = document.querySelector("#workload-table tbody");
+  workloadBody.innerHTML = workloadRows.map((w, idx) => `
+    <tr class="workload-row" onclick="toggleWorkload(${idx})">
+      <td><span id="wc-${idx}" class="caret">▶</span>${w.name}</td>
+      <td>${w.total}</td>
+      <td>${Object.entries(w.boards).map(([b, c]) => `<span class="board-chip" title="${b}">${BOARD_ICON[b] || ""} ${c}</span>`).join("")}</td>
+      <td>${w["Sin Asignar"]}</td>
+      <td>${w.Asignado}</td>
+      <td>${w.Pendiente}</td>
+      <td>${w.Solucionado}</td>
+      <td>${w.Cerrado}</td>
+    </tr>
+    <tr class="workload-detail" id="wd-${idx}" style="display:none;">
+      <td colspan="9">
+        <table class="detail-table">
+          <thead><tr><th>Elemento</th><th>Tablero</th><th>Estado ITOP</th><th>ID ITOP (REQ)</th><th>ID ITOP (INC)</th></tr></thead>
+          <tbody>
+            ${w.items.map(it => `
+              <tr>
+                <td><a class="item-link" href="${it.url}" target="_blank" rel="noopener">${it.name}</a></td>
+                <td>${BOARD_ICON[it.board] || ""} ${it.board}</td>
+                <td><span class="badge" style="background:${colorFor(it.status_label)}">${it.status_label}</span></td>
+                <td>${it.id_req || "-"}</td>
+                <td>${it.id_inc || "-"}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  `).join("");
+
+  const workloadLabels = workloadRows.map(w => w.name);
+  chartsRegistry.workload = new Chart(document.getElementById("workload-chart"), {
+    type: "bar",
+    data: {
+      labels: workloadLabels,
+      datasets: WORKLOAD_BUCKETS.map(bucket => ({
+        label: bucket,
+        data: workloadRows.map(w => w[bucket]),
+        backgroundColor: WORKLOAD_COLORS[bucket]
+      }))
+    },
+    options: {
+      indexAxis: "y",
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: "bottom" } },
+      scales: { x: { stacked: true, beginAtZero: true, ticks: { precision: 0 } }, y: { stacked: true } }
+    }
+  });
+  document.getElementById("workload-chart-box").style.height = Math.max(240, workloadLabels.length * 32) + "px";
+
+  const blockedItems = allItems.filter(it => it.cls === "blocked")
+    .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+  const blockedBody = document.querySelector("#blocked-table tbody");
+  if (blockedItems.length) {
+    blockedBody.innerHTML = blockedItems.map(it => {
+      const days = daysSince(it.assigned_at);
+      return `
+      <tr>
+        <td><a class="item-link" href="${it.url}" target="_blank" rel="noopener">${it.name}</a></td>
+        <td>${it.board}</td>
+        <td><span class="badge" style="background:${colorFor(it.status_label)}">${it.status_label}</span></td>
+        <td>${it.id_req || "-"}</td>
+        <td>${it.id_inc || "-"}</td>
+        <td>${fmtDate(it.created_at)}</td>
+        <td>${fmtDate(it.assigned_at)}</td>
+        <td>${days !== null ? days + " días" : "-"}</td>
+        <td>${fmtDate(it.updated_at)}</td>
+      </tr>`;
+    }).join("");
+  } else {
+    document.getElementById("blocked-empty-note").style.display = "block";
+  }
+
+  const assignedItems = allItems.filter(it => it.status_label === "Asignado")
+    .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+  const assignedBody = document.querySelector("#assigned-table tbody");
+  if (assignedItems.length) {
+    assignedBody.innerHTML = assignedItems.map(it => {
+      const days = daysSince(it.assigned_at);
+      const respQA = it.assignees.length ? it.assignees.join(", ") : "Sin asignar";
+      return `
+      <tr>
+        <td><a class="item-link" href="${it.url}" target="_blank" rel="noopener">${it.name}</a></td>
+        <td>${it.board}</td>
+        <td><span class="badge" style="background:${colorFor(it.status_label)}">${it.status_label}</span></td>
+        <td>${it.id_req || "-"}</td>
+        <td>${it.id_inc || "-"}</td>
+        <td>${respQA}</td>
+        <td>${fmtDate(it.created_at)}</td>
+        <td>${fmtDate(it.assigned_at)}</td>
+        <td>${days !== null ? days + " días" : "-"}</td>
+        <td>${fmtDate(it.updated_at)}</td>
+      </tr>`;
+    }).join("");
+  } else {
+    document.getElementById("assigned-empty-note").style.display = "block";
+  }
+
+  // Monthly trend: creados vs cerrados
+  const createdByMonth = {};
+  const closedByMonth = {};
+  allItems.forEach(it => {
+    if (it.created_at) {
+      const k = monthKey(it.created_at);
+      createdByMonth[k] = (createdByMonth[k] || 0) + 1;
+    }
+    if (it.cls === "done" && it.updated_at) {
+      const k = monthKey(it.updated_at);
+      closedByMonth[k] = (closedByMonth[k] || 0) + 1;
+    }
+  });
+  const allMonths = Array.from(new Set([...Object.keys(createdByMonth), ...Object.keys(closedByMonth)])).sort();
+  const lastMonths = allMonths.slice(-6);
+  const trendLabels = lastMonths.map(monthLabel);
+  const createdSeries = lastMonths.map(k => createdByMonth[k] || 0);
+  const closedSeries = lastMonths.map(k => closedByMonth[k] || 0);
+
+  // Tendencia mensual fusionada: una columna por mes de creación, con Cerrados/Abiertos apilados dentro
+  const closedByCreationMonth = {};
+  allItems.forEach(it => {
+    if (it.cls === "done" && it.created_at) {
+      const k = monthKey(it.created_at);
+      closedByCreationMonth[k] = (closedByCreationMonth[k] || 0) + 1;
+    }
+  });
+  const creationMonths = Object.keys(createdByMonth).sort();
+  const creationMonthLabels = creationMonths.map(monthLabel);
+  const closedOfMonthSeries = creationMonths.map(k => closedByCreationMonth[k] || 0);
+  const openOfMonthSeries = creationMonths.map(k => (createdByMonth[k] || 0) - (closedByCreationMonth[k] || 0));
+
+  const stackedColumnLabels = {
+    id: "stackedColumnLabels",
+    afterDatasetsDraw(chart) {
+      const { ctx, data } = chart;
+      chart.data.datasets.forEach((ds, di) => {
+        const meta = chart.getDatasetMeta(di);
+        if (meta.hidden) return;
+        meta.data.forEach((bar, i) => {
+          const val = ds.data[i];
+          if (!val) return;
+          const props = bar.getProps(["x", "y", "base"], true);
+          const midX = (props.x + props.base) / 2;
+          ctx.save();
+          ctx.font = "600 11px -apple-system, sans-serif";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.lineWidth = 3;
+          ctx.strokeStyle = "rgba(255,255,255,0.85)";
+          ctx.strokeText(String(val), midX, props.y);
+          ctx.fillStyle = "#1f2328";
+          ctx.fillText(String(val), midX, props.y);
+          ctx.restore();
+        });
+      });
+      const n = data.labels.length;
+      for (let i = 0; i < n; i++) {
+        let total = 0, endX = null, yPos = null;
+        data.datasets.forEach((ds, di) => {
+          const meta = chart.getDatasetMeta(di);
+          if (meta.hidden) return;
+          const val = ds.data[i];
+          if (val) {
+            total += val;
+            const bar = meta.data[i];
+            if (bar && (endX === null || bar.x > endX)) { endX = bar.x; yPos = bar.y; }
+          }
+        });
+        if (total > 0 && endX !== null) {
+          ctx.save();
+          ctx.fillStyle = "#1f2328";
+          ctx.font = "700 12px -apple-system, sans-serif";
+          ctx.textAlign = "left";
+          ctx.textBaseline = "middle";
+          ctx.fillText(String(total), endX + 8, yPos);
+          ctx.restore();
+        }
+      }
+    }
+  };
+
+  document.getElementById("trend-chart-box").style.height = Math.max(240, creationMonthLabels.length * 60) + "px";
+  chartsRegistry.trend = new Chart(document.getElementById("trend-chart"), {
+    type: "bar",
+    data: {
+      labels: creationMonthLabels,
+      datasets: [
+        { label: "Cerrados", data: closedOfMonthSeries, backgroundColor: "#00c875", borderRadius: 4 },
+        { label: "Abiertos", data: openOfMonthSeries, backgroundColor: "#fdab3d", borderRadius: 4 }
+      ]
+    },
+    options: {
+      indexAxis: "y",
+      responsive: true, maintainAspectRatio: false,
+      layout: { padding: { right: 32 } },
+      plugins: { legend: { position: "bottom" } },
+      scales: {
+        x: { stacked: true, beginAtZero: true, ticks: { precision: 0 } },
+        y: { stacked: true }
+      }
+    },
+    plugins: [stackedColumnLabels]
+  });
+
+  function renderBoardTrendChart(canvasId, boxId, registryKey, items) {
+    const series = buildMonthlyClosedSeries(items);
+    document.getElementById(boxId).style.height = Math.max(240, series.labels.length * 60) + "px";
+    chartsRegistry[registryKey] = new Chart(document.getElementById(canvasId), {
+      type: "bar",
+      data: {
+        labels: series.labels,
+        datasets: [
+          { label: "Cerrados", data: series.closed, backgroundColor: "#00c875", borderRadius: 4 },
+          { label: "Abiertos", data: series.open, backgroundColor: "#fdab3d", borderRadius: 4 }
+        ]
+      },
+      options: {
+        indexAxis: "y",
+        responsive: true, maintainAspectRatio: false,
+        layout: { padding: { right: 32 } },
+        plugins: { legend: { position: "bottom" } },
+        scales: {
+          x: { stacked: true, beginAtZero: true, ticks: { precision: 0 } },
+          y: { stacked: true }
+        }
+      },
+      plugins: [stackedColumnLabels]
+    });
+  }
+
+  const reqAdicItems = allItems.filter(it => it.board === "Registro Requerimientos" || it.board === "Registro Req. Adicionales");
+  renderBoardTrendChart("trend-reqadic-chart", "trend-reqadic-chart-box", "trendReqAdic", reqAdicItems);
+
+  const incidentesItems = allItems.filter(it => it.board === "Registro Incidentes");
+  renderBoardTrendChart("trend-incidentes-chart", "trend-incidentes-chart-box", "trendIncidentes", incidentesItems);
+
+  const statusLabels = Object.keys(statusCounts);
+  const statusTotal = statusLabels.reduce((sum, l) => sum + statusCounts[l], 0);
+
+  chartsRegistry.statusDist = new Chart(document.getElementById("status-chart"), {
+    type: "doughnut",
+    data: {
+      labels: statusLabels,
+      datasets: [{ data: statusLabels.map(l => statusCounts[l]), backgroundColor: statusLabels.map(colorFor) }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: "bottom",
+          labels: {
+            boxWidth: 10, font: { size: 11 },
+            generateLabels(chart) {
+              const ds = chart.data.datasets[0];
+              return chart.data.labels.map((label, i) => {
+                const value = ds.data[i];
+                const pct = statusTotal ? Math.round((value / statusTotal) * 100) : 0;
+                return {
+                  text: label + ": " + value + " (" + pct + "%)",
+                  fillStyle: ds.backgroundColor[i],
+                  strokeStyle: ds.backgroundColor[i],
+                  index: i
+                };
+              });
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // Resumen ejecutivo — generado con reglas simples (sin IA) para la versión publicada
+  const narrativeEl = document.getElementById("narrative");
+  try {
+    const summary = {
+      total_elementos: total,
+      cerrados: done,
+      porcentaje_cerrado: doneRate,
+      pendientes: blocked,
+      porcentaje_pendiente: blockedRate,
+      nuevos_este_mes: newThisMonth,
+      desglose_por_tablero: boardRows.map(r => ({ tablero: r.name, total: r.total, cerrados: r.done, pendientes: r.blocked, nuevos_mes: r.nuevo })),
+      distribucion_estado_itop: statusCounts,
+      tendencia_mensual: lastMonths.map((k, i) => ({ mes: trendLabels[i], creados: createdSeries[i], cerrados: closedSeries[i] })),
+      ejemplos_pendientes: blockedItems.slice(0, 8).map(it => ({ nombre: it.name, tablero: it.board })),
+      carga_por_responsable_qa: workloadRows.map(w => ({ responsable: w.name, total: w.total, sin_asignar: w["Sin Asignar"], asignado: w.Asignado, pendiente: w.Pendiente, solucionado: w.Solucionado, cerrado: w.Cerrado, otros: w.Otros }))
+    };
+    narrativeEl.textContent = buildNarrative(summary);
+  } catch (e) {
+    narrativeEl.textContent = "No se pudo generar el resumen. Revisa los KPIs y la tabla de tableros arriba para el detalle.";
+  }
+
+  restoreSectionStates();
+}
+
+main().catch(err => {
+  document.getElementById("loading").textContent = "Ocurrió un error al cargar el reporte: " + err.message;
+});
+
+// Auto-actualización: además de traer datos frescos cada vez que se entra a la página,
+// si la pestaña se queda abierta se recarga sola cada 5 minutos (mismo ritmo que el
+// GitHub Action que regenera data/monday-data.json) para reflejar cambios de Monday.
+setInterval(() => location.reload(), 5 * 60 * 1000);
+</script>
+</body>
+</html>
