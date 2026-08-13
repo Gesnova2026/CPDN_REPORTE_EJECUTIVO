@@ -1,1 +1,34 @@
+name: Actualizar datos de Monday
+on:
+  schedule:
+    # Cada 5 minutos (mínimo práctico de GitHub Actions). Ajusta si necesitas otra frecuencia.
+    - cron: '*/5 * * * *'
+  workflow_dispatch: {}
 
+permissions:
+  contents: write
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Descargar datos de Monday
+        env:
+          MONDAY_API_TOKEN: ${{ secrets.MONDAY_API_TOKEN }}
+        run: node scripts/fetch-monday-data.mjs
+
+      - name: Confirmar cambios (si los hay)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/monday-data.json
+          git diff --quiet --cached || git commit -m "chore: actualizar datos de Monday"
+          git push
