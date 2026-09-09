@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-09T09:51:49.570Z",
+  "generated_at": "2026-09-09T14:01:00.588Z",
   "boards": {
     "18254196175": {
       "name": "Registro Requerimientos",
@@ -437,6 +437,45 @@
             "date_mm63bz4h": "2026-08-06",
             "multiple_person_mm0pjp0": "Fernanda Lagos"
           }
+        },
+        {
+          "id": "13005137121",
+          "name": "Visualización de requerimientos durante subrogancia de Secretaria",
+          "url": "https://pronova-salud.monday.com/boards/18425634570/pulses/13005137121",
+          "created_at": "2026-09-09T11:49:47Z",
+          "updated_at": "2026-09-09T12:16:03Z",
+          "column_values": {
+            "text_mkx0xt5q": "R-010727",
+            "color_mm638s7q": "Cerrado",
+            "date_mm63bz4h": "2026-08-25",
+            "multiple_person_mm0pjp0": "Fernanda Lagos"
+          }
+        },
+        {
+          "id": "13005164316",
+          "name": "111 - Oficio/ Informa Prórroga de Pensión de Montepío.",
+          "url": "https://pronova-salud.monday.com/boards/18425634570/pulses/13005164316",
+          "created_at": "2026-09-09T12:01:41Z",
+          "updated_at": "2026-09-09T12:16:15Z",
+          "column_values": {
+            "text_mkx0xt5q": "R-010789",
+            "color_mm638s7q": "Cerrado",
+            "date_mm63bz4h": "2026-09-04",
+            "multiple_person_mm0pjp0": "Fernanda Lagos"
+          }
+        },
+        {
+          "id": "13005214329",
+          "name": "Planilla excel",
+          "url": "https://pronova-salud.monday.com/boards/18425634570/pulses/13005214329",
+          "created_at": "2026-09-09T12:07:06Z",
+          "updated_at": "2026-09-09T12:16:21Z",
+          "column_values": {
+            "text_mkx0xt5q": "R-010810",
+            "color_mm638s7q": "Asignado",
+            "date_mm63bz4h": "2026-09-08",
+            "multiple_person_mm0pjp0": "Fernanda Lagos"
+          }
         }
       ]
     },
@@ -686,13 +725,69 @@
           "name": "Error al momento de emitir hoja de ruta",
           "url": "https://pronova-salud.monday.com/boards/18425631515/pulses/12766974817",
           "created_at": "2026-08-10T20:49:47Z",
-          "updated_at": "2026-08-10T20:52:44Z",
+          "updated_at": "2026-09-09T13:09:36Z",
           "column_values": {
             "text_mm60j51z": "I-010674",
             "text_mkx0xt5q": "",
-            "color_mm63rtdt": "Solucionado",
+            "color_mm63rtdt": "Cerrado",
             "date_mm632exz": "2026-08-07",
             "multiple_person_mm0pjp0": "Fernanda Lagos"
+          }
+        },
+        {
+          "id": "13005310435",
+          "name": "Error al emitir hoja de ruta",
+          "url": "https://pronova-salud.monday.com/boards/18425631515/pulses/13005310435",
+          "created_at": "2026-09-09T12:22:52Z",
+          "updated_at": "2026-09-09T13:10:11Z",
+          "column_values": {
+            "text_mm60j51z": "I-010670",
+            "text_mkx0xt5q": "",
+            "color_mm63rtdt": "Solucionado",
+            "date_mm632exz": "2026-08-06",
+            "multiple_person_mm0pjp0": ""
+          }
+        },
+        {
+          "id": "13005689263",
+          "name": "Problema en la derivación de documentos a dos unidades",
+          "url": "https://pronova-salud.monday.com/boards/18425631515/pulses/13005689263",
+          "created_at": "2026-09-09T13:11:58Z",
+          "updated_at": "2026-09-09T13:42:32Z",
+          "column_values": {
+            "text_mm60j51z": "I-010741",
+            "text_mkx0xt5q": "",
+            "color_mm63rtdt": "Pendiente",
+            "date_mm632exz": "2026-08-28",
+            "multiple_person_mm0pjp0": "Fernanda Lagos"
+          }
+        },
+        {
+          "id": "13006067560",
+          "name": "Error al ingresar documentos para despachar",
+          "url": "https://pronova-salud.monday.com/boards/18425631515/pulses/13006067560",
+          "created_at": "2026-09-09T13:42:51Z",
+          "updated_at": "2026-09-09T13:53:00Z",
+          "column_values": {
+            "text_mm60j51z": "I-010767",
+            "text_mkx0xt5q": "",
+            "color_mm63rtdt": "Solucionado",
+            "date_mm632exz": "2026-09-01",
+            "multiple_person_mm0pjp0": "Fernanda Lagos"
+          }
+        },
+        {
+          "id": "13006243510",
+          "name": "Gestor Documental caido",
+          "url": "https://pronova-salud.monday.com/boards/18425631515/pulses/13006243510",
+          "created_at": "2026-09-09T13:54:13Z",
+          "updated_at": "2026-09-09T13:55:18Z",
+          "column_values": {
+            "text_mm60j51z": "I-010776",
+            "text_mkx0xt5q": "",
+            "color_mm63rtdt": "Solucionado",
+            "date_mm632exz": "2026-09-02",
+            "multiple_person_mm0pjp0": "Belen Scarlet Filun Jara"
           }
         }
       ]
