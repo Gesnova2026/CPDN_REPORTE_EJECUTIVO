@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-05T12:34:17.081Z",
+  "generated_at": "2026-10-05T20:53:19.221Z",
   "boards": {
     "18254196175": {
       "name": "Registro Requerimientos",
@@ -654,11 +654,11 @@
           "name": "Funcionamiento GESTOR DOCUMENTAL (Notificaciones, no están llegando al correo)",
           "url": "https://pronova-salud.monday.com/boards/18425631515/pulses/12766624136",
           "created_at": "2026-08-10T20:21:57Z",
-          "updated_at": "2026-08-10T20:25:27Z",
+          "updated_at": "2026-10-05T19:36:16Z",
           "column_values": {
             "text_mm60j51z": "I-010400",
             "text_mkx0xt5q": "",
-            "color_mm63rtdt": "Solucionado",
+            "color_mm63rtdt": "Cerrado",
             "date_mm632exz": "2026-05-29",
             "multiple_person_mm0pjp0": ""
           }
@@ -668,11 +668,11 @@
           "name": "Problemas detectados en Gestor Documental",
           "url": "https://pronova-salud.monday.com/boards/18425631515/pulses/12766679360",
           "created_at": "2026-08-10T20:25:52Z",
-          "updated_at": "2026-08-10T20:28:19Z",
+          "updated_at": "2026-10-05T19:35:30Z",
           "column_values": {
             "text_mm60j51z": "I-010401",
             "text_mkx0xt5q": "",
-            "color_mm63rtdt": "Solucionado",
+            "color_mm63rtdt": "Cerrado",
             "date_mm632exz": "2026-05-29",
             "multiple_person_mm0pjp0": ""
           }
@@ -696,11 +696,11 @@
           "name": "Folio repetido",
           "url": "https://pronova-salud.monday.com/boards/18425631515/pulses/12766772841",
           "created_at": "2026-08-10T20:33:51Z",
-          "updated_at": "2026-08-10T20:41:44Z",
+          "updated_at": "2026-10-05T19:34:51Z",
           "column_values": {
             "text_mm60j51z": "I-010513",
             "text_mkx0xt5q": "",
-            "color_mm63rtdt": "Asignado",
+            "color_mm63rtdt": "Solucionado",
             "date_mm632exz": "2026-06-25",
             "multiple_person_mm0pjp0": "Belen Scarlet Filun Jara"
           }
@@ -724,11 +724,11 @@
           "name": "Problemas con Gestor Documental",
           "url": "https://pronova-salud.monday.com/boards/18425631515/pulses/12766878017",
           "created_at": "2026-08-10T20:44:15Z",
-          "updated_at": "2026-08-10T20:49:05Z",
+          "updated_at": "2026-10-05T19:33:48Z",
           "column_values": {
             "text_mm60j51z": "I-010670",
             "text_mkx0xt5q": "",
-            "color_mm63rtdt": "Pendiente",
+            "color_mm63rtdt": "Cerrado",
             "date_mm632exz": "2026-08-06",
             "multiple_person_mm0pjp0": "Fernanda Lagos"
           }
@@ -738,7 +738,7 @@
           "name": "Error al momento de emitir hoja de ruta",
           "url": "https://pronova-salud.monday.com/boards/18425631515/pulses/12766974817",
           "created_at": "2026-08-10T20:49:47Z",
-          "updated_at": "2026-09-09T13:09:36Z",
+          "updated_at": "2026-10-05T19:33:01Z",
           "column_values": {
             "text_mm60j51z": "I-010674",
             "text_mkx0xt5q": "",
@@ -752,11 +752,11 @@
           "name": "Error al emitir hoja de ruta",
           "url": "https://pronova-salud.monday.com/boards/18425631515/pulses/13005310435",
           "created_at": "2026-09-09T12:22:52Z",
-          "updated_at": "2026-09-09T13:10:11Z",
+          "updated_at": "2026-10-05T19:32:29Z",
           "column_values": {
             "text_mm60j51z": "I-010670",
             "text_mkx0xt5q": "",
-            "color_mm63rtdt": "Solucionado",
+            "color_mm63rtdt": "Cerrado",
             "date_mm632exz": "2026-08-06",
             "multiple_person_mm0pjp0": ""
           }
@@ -780,11 +780,11 @@
           "name": "Error al ingresar documentos para despachar",
           "url": "https://pronova-salud.monday.com/boards/18425631515/pulses/13006067560",
           "created_at": "2026-09-09T13:42:51Z",
-          "updated_at": "2026-09-09T13:53:00Z",
+          "updated_at": "2026-10-05T14:59:18Z",
           "column_values": {
             "text_mm60j51z": "I-010767",
             "text_mkx0xt5q": "",
-            "color_mm63rtdt": "Solucionado",
+            "color_mm63rtdt": "Cerrado",
             "date_mm632exz": "2026-09-01",
             "multiple_person_mm0pjp0": "Fernanda Lagos"
           }
@@ -794,11 +794,11 @@
           "name": "Gestor Documental caido",
           "url": "https://pronova-salud.monday.com/boards/18425631515/pulses/13006243510",
           "created_at": "2026-09-09T13:54:13Z",
-          "updated_at": "2026-09-09T13:55:18Z",
+          "updated_at": "2026-10-05T15:00:01Z",
           "column_values": {
             "text_mm60j51z": "I-010776",
             "text_mkx0xt5q": "",
-            "color_mm63rtdt": "Solucionado",
+            "color_mm63rtdt": "Cerrado",
             "date_mm632exz": "2026-09-02",
             "multiple_person_mm0pjp0": "Belen Scarlet Filun Jara"
           }
@@ -808,12 +808,26 @@
           "name": "Error 419",
           "url": "https://pronova-salud.monday.com/boards/18425631515/pulses/13196005434",
           "created_at": "2026-10-02T19:40:52Z",
-          "updated_at": "2026-10-02T19:41:35Z",
+          "updated_at": "2026-10-05T14:58:20Z",
           "column_values": {
             "text_mm60j51z": "I-010914",
             "text_mkx0xt5q": "",
-            "color_mm63rtdt": "Asignado",
+            "color_mm63rtdt": "Solucionado",
             "date_mm632exz": "2026-10-01",
+            "multiple_person_mm0pjp0": "Fernanda Lagos"
+          }
+        },
+        {
+          "id": "13207355415",
+          "name": "No visualización de informes trimestrales – AAF 341 y OCO 176",
+          "url": "https://pronova-salud.monday.com/boards/18425631515/pulses/13207355415",
+          "created_at": "2026-10-05T14:57:17Z",
+          "updated_at": "2026-10-05T19:36:40Z",
+          "column_values": {
+            "text_mm60j51z": "I-010922",
+            "text_mkx0xt5q": "",
+            "color_mm63rtdt": "Asignado",
+            "date_mm632exz": "2026-10-05",
             "multiple_person_mm0pjp0": "Fernanda Lagos"
           }
         }
