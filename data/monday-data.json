@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-23T14:41:33.368Z",
+  "generated_at": "2026-11-24T01:54:39.579Z",
   "boards": {
     "18254196175": {
       "name": "Registro Requerimientos",
@@ -892,11 +892,95 @@
           "name": "Problemas para derivar documento.",
           "url": "https://pronova-salud.monday.com/boards/18425631515/pulses/13616921807",
           "created_at": "2026-11-23T14:40:36Z",
-          "updated_at": "2026-11-23T14:41:12Z",
+          "updated_at": "2026-11-23T14:41:57Z",
           "column_values": {
             "text_mm60j51z": "I-011188",
             "text_mkx0xt5q": "",
             "color_mm63rtdt": "Solucionado",
+            "date_mm632exz": "2026-10-28",
+            "multiple_person_mm0pjp0": "Benjamin Ricardo Lara Torres"
+          }
+        },
+        {
+          "id": "13616953874",
+          "name": "Gestor Documental",
+          "url": "https://pronova-salud.monday.com/boards/18425631515/pulses/13616953874",
+          "created_at": "2026-11-23T14:42:15Z",
+          "updated_at": "2026-11-23T14:43:41Z",
+          "column_values": {
+            "text_mm60j51z": "I-011042",
+            "text_mkx0xt5q": "",
+            "color_mm63rtdt": "Cerrado",
+            "date_mm632exz": "2026-10-28",
+            "multiple_person_mm0pjp0": ""
+          }
+        },
+        {
+          "id": "13617027828",
+          "name": "Consulta por aplicación gestor documental",
+          "url": "https://pronova-salud.monday.com/boards/18425631515/pulses/13617027828",
+          "created_at": "2026-11-23T14:50:32Z",
+          "updated_at": "2026-11-23T14:51:34Z",
+          "column_values": {
+            "text_mm60j51z": "I-011043",
+            "text_mkx0xt5q": "",
+            "color_mm63rtdt": "Cerrado",
+            "date_mm632exz": "2026-10-28",
+            "multiple_person_mm0pjp0": "Benjamin Ricardo Lara Torres"
+          }
+        },
+        {
+          "id": "13617325243",
+          "name": "Consulta situación Gestor documental en AVL",
+          "url": "https://pronova-salud.monday.com/boards/18425631515/pulses/13617325243",
+          "created_at": "2026-11-23T15:12:25Z",
+          "updated_at": "2026-11-23T15:13:17Z",
+          "column_values": {
+            "text_mm60j51z": "I-011048",
+            "text_mkx0xt5q": "",
+            "color_mm63rtdt": "Cerrado",
+            "date_mm632exz": "2026-10-29",
+            "multiple_person_mm0pjp0": "Benjamin Ricardo Lara Torres"
+          }
+        },
+        {
+          "id": "13617334010",
+          "name": "ERROR EN GESTOR DOCUMENTAL",
+          "url": "https://pronova-salud.monday.com/boards/18425631515/pulses/13617334010",
+          "created_at": "2026-11-23T15:13:33Z",
+          "updated_at": "2026-11-23T15:14:53Z",
+          "column_values": {
+            "text_mm60j51z": "I-011056",
+            "text_mkx0xt5q": "",
+            "color_mm63rtdt": "Cerrado",
+            "date_mm632exz": "",
+            "multiple_person_mm0pjp0": "Fernanda Lagos"
+          }
+        },
+        {
+          "id": "13617373893",
+          "name": "inconvenientes para visualizar los documentos",
+          "url": "https://pronova-salud.monday.com/boards/18425631515/pulses/13617373893",
+          "created_at": "2026-11-23T15:16:24Z",
+          "updated_at": "2026-11-23T15:18:03Z",
+          "column_values": {
+            "text_mm60j51z": "I-011145",
+            "text_mkx0xt5q": "",
+            "color_mm63rtdt": "Solucionado",
+            "date_mm632exz": "2026-11-11",
+            "multiple_person_mm0pjp0": "Fernanda Lagos"
+          }
+        },
+        {
+          "id": "13617415064",
+          "name": "problema con destinatarios requerimiento",
+          "url": "https://pronova-salud.monday.com/boards/18425631515/pulses/13617415064",
+          "created_at": "2026-11-23T15:19:21Z",
+          "updated_at": "2026-11-23T15:19:30Z",
+          "column_values": {
+            "text_mm60j51z": "I-011188",
+            "text_mkx0xt5q": "",
+            "color_mm63rtdt": "Cerrado",
             "date_mm632exz": "",
             "multiple_person_mm0pjp0": ""
           }
