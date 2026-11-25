@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-25T04:56:20.320Z",
+  "generated_at": "2026-11-25T15:20:08.954Z",
   "boards": {
     "18254196175": {
       "name": "Registro Requerimientos",
@@ -274,7 +274,7 @@
           "name": "Modificación formato Documento",
           "url": "https://pronova-salud.monday.com/boards/18425634570/pulses/12749540714",
           "created_at": "2026-08-07T19:42:06Z",
-          "updated_at": "2026-08-11T13:18:00Z",
+          "updated_at": "2026-11-25T13:10:26Z",
           "column_values": {
             "text_mkx0xt5q": "R-010090",
             "color_mm638s7q": "Pendiente",
@@ -287,7 +287,7 @@
           "name": "Tipografía verdana regular",
           "url": "https://pronova-salud.monday.com/boards/18425634570/pulses/12749540725",
           "created_at": "2026-08-07T19:42:06Z",
-          "updated_at": "2026-08-11T13:18:02Z",
+          "updated_at": "2026-11-25T13:09:52Z",
           "column_values": {
             "text_mkx0xt5q": "R-010090",
             "color_mm638s7q": "Pendiente",
@@ -300,7 +300,7 @@
           "name": "Destacador de palabras dentro del texto",
           "url": "https://pronova-salud.monday.com/boards/18425634570/pulses/12749540731",
           "created_at": "2026-08-07T19:42:06Z",
-          "updated_at": "2026-08-11T13:18:05Z",
+          "updated_at": "2026-11-25T13:11:13Z",
           "column_values": {
             "text_mkx0xt5q": "R-010090",
             "color_mm638s7q": "Pendiente",
@@ -313,7 +313,7 @@
           "name": "Fuente tamaño letra",
           "url": "https://pronova-salud.monday.com/boards/18425634570/pulses/12749540726",
           "created_at": "2026-08-07T19:42:06Z",
-          "updated_at": "2026-08-11T13:18:08Z",
+          "updated_at": "2026-11-25T13:11:44Z",
           "column_values": {
             "text_mkx0xt5q": "R-010090",
             "color_mm638s7q": "Pendiente",
@@ -326,7 +326,7 @@
           "name": "Cajas de texto",
           "url": "https://pronova-salud.monday.com/boards/18425634570/pulses/12749540728",
           "created_at": "2026-08-07T19:42:06Z",
-          "updated_at": "2026-08-11T13:18:11Z",
+          "updated_at": "2026-11-25T13:12:34Z",
           "column_values": {
             "text_mkx0xt5q": "R-010090",
             "color_mm638s7q": "Pendiente",
@@ -339,7 +339,7 @@
           "name": "No se permita la alineación a la derecha",
           "url": "https://pronova-salud.monday.com/boards/18425634570/pulses/12749540732",
           "created_at": "2026-08-07T19:42:06Z",
-          "updated_at": "2026-08-11T13:18:14Z",
+          "updated_at": "2026-11-25T13:12:51Z",
           "column_values": {
             "text_mkx0xt5q": "R-010090",
             "color_mm638s7q": "Pendiente",
